@@ -53,7 +53,7 @@ vector vector_addition(const vector A,const vector B, bool * failed)
     vector return_vector;
 
     if (A.size != B.size)
-        failed = 1; return return_vector;
+        *failed = 1; return return_vector;
     
     return_vector.arr = malloc(A.size * sizeof(vtype));
     for(int i = 0; i < A.size; ++i)
@@ -69,7 +69,7 @@ vector dot_product(const vector A,const vector B, bool * failed)
     vector return_vector;
 
     if (A.size != B.size)
-        failed = 1; return return_vector;
+        *failed = 1; return return_vector;
 
     return_vector.arr = malloc(A.size * sizeof(vtype));
     for(int i = 0; i < A.size; ++i)
