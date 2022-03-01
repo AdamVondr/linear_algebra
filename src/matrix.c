@@ -15,7 +15,7 @@ inline vtype * matrix_at(const matrix input_matrix, int i, int j)
 
 vtype * matrix_column(matrix input_matrix, int column)
 {
-    vtype ** return_arr = malloc(input_matrix.M * sizeof(vtype*));
+    vtype * return_arr = malloc(input_matrix.M * sizeof(vtype*));
     for (int i = 0; i < input_matrix.M; ++i) // for row
     {
         return_arr[i] = &input_matrix.arr[i*input_matrix.N + column];
@@ -25,7 +25,7 @@ vtype * matrix_column(matrix input_matrix, int column)
 
 vtype * matrix_row(matrix input_matrix, int row_number)
 {
-    vtype ** return_arr = malloc(input_matrix.N * sizeof(vtype*));
+    vtype * return_arr = malloc(input_matrix.N * sizeof(vtype*));
     for (int i = 0; i < input_matrix.N; ++i) //for column
     {
         return_arr[i] = &input_matrix.arr[i*input_matrix.M + row_number];
@@ -89,7 +89,7 @@ matrix matrix_addition(matrix A, matrix B, bool* failed)
     matrix return_matrix;
     
     if (!((A.M == B.M) && (A.N == B.N)))
-        failed = true; return return_matrix;
+        *failed = true; return return_matrix;
 
     return_matrix.M = A.M;
     return_matrix.N = A.N;
@@ -108,9 +108,9 @@ matrix matrix_multiplication(matrix A, matrix B, bool* failed)
     matrix return_matrix;
     
     if (A.N != B.M)
-        failed = true; return return_matrix;
+        *failed = true; return return_matrix;
 
-    return_matrix.M = matrix_create_empty(A.M, B.N);
+    return_matrix = matrix_create_empty(A.M, B.N);
     
     vtype partial_sum;
 
@@ -144,7 +144,7 @@ bool is_matrix_identity(matrix input_matrix)
         return 0;
     
     int i = 0;
-    while(matrix_at(input_matrix, i, i) == 1 && i < input_matrix.M)
+    while(*matrix_at(input_matrix, i, i) == 1 && i < input_matrix.M)
         i++;
 }
 

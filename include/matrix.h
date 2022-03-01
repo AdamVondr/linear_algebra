@@ -1,9 +1,10 @@
 #include <stdlib.h>
 #include <stdbool.h> 
 typedef float vtype;
-typedef struct Matrix matrix; 
 
 struct Matrix;
+typedef struct Matrix matrix; 
+
 inline vtype * matrix_at(const matrix input_matrix, int i, int j);
 vtype * matrix_column(matrix input_matrix, int column);
 vtype * matrix_row(matrix input_matrix, int row_number);
