@@ -33,44 +33,42 @@ vtype ** matrix_row(matrix input_matrix, int row_number)
     return return_arr;
 }
 
-void matrix_transpose(const matrix input_matrix)
+void matrix_transpose(matrix * input_matrix)
 {
     // i represents row number
     // j represents column number
     vtype temp;
-    int M = input_matrix.M, N = input_matrix.N;
+    int M = (*input_matrix).M, N = (*input_matrix).N;
     for(int i = 0; i < M; ++i) //column iter
     {
         for(int j = 0; j < N; ++j) //row iter
         {
-            temp = input_matrix.arr[ i*N + j ];
-            input_matrix.arr[ i*N + j ] = input_matrix.arr[ j*M + i ];
-            input_matrix.arr[ j*M + i ] = temp;
+            temp = (*input_matrix).arr[ i*N + j ];
+            (*input_matrix).arr[ i*N + j ] = (*input_matrix).arr[ j*M + i ];
+            (*input_matrix).arr[ j*M + i ] = temp;
         }
     }
 }
 
-void matrix_fill(matrix input_matrix, vtype val)
+void matrix_fill(matrix *input_matrix, vtype val)
 {
-    int size = input_matrix.M * input_matrix.N;
-    for(int i; i < size; ++i)
-        input_matrix.arr[i] = val;
+    for(int i; i < matrix_size(input_matrix); ++i)
+        (*input_matrix).arr[i] = val;
 }
 
-void matrix_scalar_mult(matrix input_matrix, vtype val)
+void matrix_scalar_mult(matrix * input_matrix, vtype val)
 {
-    int size = input_matrix.M * input_matrix.N;
-    for(int i; i < size; ++i)
-        input_matrix.arr[i] *= val;
+    for(int i; i < matrix_size(input_matrix); ++i)
+        (*input_matrix).arr[i] *= val;
 }
 
-void matrix_normalize(matrix input_matrix)
+void matrix_normalize(matrix * input_matrix)
 {
     vtype MAX;
-    for (int i = 0; i < input_matrix.M * input_matrix.N; i++)
+    for (int i = 0; i < matrix_size(input_matrix); i++)
     {
-        if (MAX < input_matrix.arr[i])
-            MAX = input_matrix.arr[i];
+        if (MAX < (*input_matrix).arr[i])
+            MAX = (*input_matrix).arr[i];
     }
     matrix_scalar_mult(input_matrix, 1/MAX);
 }
@@ -84,7 +82,7 @@ matrix matrix_create_empty(int M, int N)
     return return_matrix;
 }
 
-matrix matrix_create_empty_from(matrix * input_matrix)
+matrix matrix_create_empty_from(const matrix * input_matrix)
 {
     return matrix_create_empty((*input_matrix).M, (*input_matrix).N);
 }
