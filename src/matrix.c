@@ -12,7 +12,7 @@ struct Matrix
 
 inline int matrix_size(const matrix * input_matrix)
 {
-    return (*input_matrix).M*(*input_matrix).N;
+    return (*input_matrix).M * (*input_matrix).N;
 }
 
 inline bool matrix_size_match(const matrix * A, const matrix * B)
@@ -25,6 +25,11 @@ inline bool matrix_size_match(const matrix * A, const matrix * B)
 inline vtype * matrix_at(matrix * input_matrix, int i, int j)
 {
     return &(*input_matrix).arr[i* (*input_matrix).N + j];
+}
+
+inline vtype matrix_value_at(const matrix * input_matrix, int i, int j)
+{
+    return (*input_matrix).arr[i* (*input_matrix).N + j];
 }
 
 vtype ** matrix_column(matrix input_matrix, int column)
@@ -49,11 +54,11 @@ vtype ** matrix_row(matrix input_matrix, int row_number)
 
 //----------------------------------------------------------------------------------------------------
 
-bool is_matrix_zero(const matrix input_matrix)
+bool is_matrix_zero(const matrix * input_matrix)
 {
-    int size = input_matrix.M * input_matrix.N;
+    int size = matrix_size(input_matrix);
     int i = 0; 
-    while ((i < size) && (input_matrix.arr[i] == 0))
+    while ((i < size) && ((*input_matrix).arr[i] == 0))
         i++;
 
     return (i == size);
@@ -70,10 +75,10 @@ bool is_matrix_identity(const matrix * input_matrix)
     {
         for(int j = 0 ; j < (*input_matrix).N; ++j)
         {
-            element = *matrix_at(input_matrix,i,j);
-            if (i == j && element != 1)
+            element = matrix_value_at(input_matrix,i,j);
+            if (i != j && element != 0)
                 return false;
-            else if (i != j && element != 0)
+            else if (i == j && element != 1)
                 return false;
         }
     }
@@ -109,7 +114,7 @@ void matrix_transpose(matrix * input_matrix)
     }
 }
 
-void matrix_fill(matrix *input_matrix, vtype val)
+void matrix_fill(matrix * input_matrix, vtype val)
 {
     for(int i; i < matrix_size(input_matrix); ++i)
         (*input_matrix).arr[i] = val;
