@@ -5,8 +5,15 @@
 typedef float vtype;
 
 // key structure and typedef
-struct Matrix;
-typedef struct Matrix matrix; 
+struct _matrix
+{
+    // M - column len
+    // N - row len
+    int M,N;
+    vtype * arr;
+};
+
+typedef struct _matrix matrix; 
 
 // get number of elements
 inline int matrix_size(const matrix * input_matrix);

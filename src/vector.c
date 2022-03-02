@@ -1,11 +1,5 @@
 #include <vector.h>
 
-struct Vector
-{
-    int size;
-    vtype * arr;
-};
-
 void vec_fill(vector * input_vector,vtype val)
 {
     for(int i = 0; i < (*input_vector).size; ++i)

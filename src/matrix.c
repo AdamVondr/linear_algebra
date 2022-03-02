@@ -1,13 +1,5 @@
 #include <matrix.h>
 
-struct Matrix
-{
-    // M - column len
-    // N - row len
-    int M,N;
-    vtype * arr;
-};
-
 //----------------------------------------------------------------------------------------------------
 
 inline int matrix_size(const matrix * input_matrix)
