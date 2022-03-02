@@ -8,6 +8,20 @@ struct Matrix
     vtype * arr;
 };
 
+//----------------------------------------------------------------------------------------------------
+
+inline int matrix_size(const matrix * input_matrix)
+{
+    return (*input_matrix).M*(*input_matrix).N;
+}
+
+inline bool matrix_size_match(const matrix * A, const matrix * B)
+{
+    return ((*A).M == (*B).M) && ((*A).N == (*B).N);
+}
+
+//----------------------------------------------------------------------------------------------------
+
 inline vtype * matrix_at(matrix * input_matrix, int i, int j)
 {
     return &(*input_matrix).arr[i* (*input_matrix).N + j];
@@ -32,6 +46,51 @@ vtype ** matrix_row(matrix input_matrix, int row_number)
     }
     return return_arr;
 }
+
+//----------------------------------------------------------------------------------------------------
+
+bool is_matrix_zero(const matrix input_matrix)
+{
+    int size = input_matrix.M * input_matrix.N;
+    int i = 0; 
+    while ((i < size) && (input_matrix.arr[i] == 0))
+        i++;
+
+    return (i == size);
+}
+
+bool is_matrix_identity(const matrix * input_matrix)
+{
+    // is matrix square
+    if(is_matrix_square(input_matrix))
+        return 0;
+    
+    vtype element;
+    for(int i = 0 ; i < (*input_matrix).M; ++i)
+    {
+        for(int j = 0 ; j < (*input_matrix).N; ++j)
+        {
+            element = *matrix_at(input_matrix,i,j);
+            if (i == j && element != 1)
+                return false;
+            else if (i != j && element != 0)
+                return false;
+        }
+    }
+    return true;
+}
+
+inline bool is_matrix_square(const matrix * input_matrix)
+{
+    return ((*input_matrix).M == (*input_matrix).N);
+}
+
+inline bool is_matrix_rect(const matrix * input_matrix)
+{
+    return ((*input_matrix).M != (*input_matrix).N);
+}
+
+//----------------------------------------------------------------------------------------------------
 
 void matrix_transpose(matrix * input_matrix)
 {
@@ -73,6 +132,8 @@ void matrix_normalize(matrix * input_matrix)
     matrix_scalar_mult(input_matrix, 1/MAX);
 }
 
+//----------------------------------------------------------------------------------------------------
+
 matrix matrix_create_empty(int M, int N)
 {
     matrix return_matrix;
@@ -96,6 +157,8 @@ matrix matrix_cpy(const matrix * input_matrix)
     }
     return return_matrix;
 }
+
+//----------------------------------------------------------------------------------------------------
 
 matrix matrix_addition(matrix * A, matrix * B, bool* failed)
 {
@@ -165,53 +228,4 @@ matrix matrix_aply_operation(matrix * A, matrix * B, vtype(*operation)(vtype, vt
     return return_matrix;
 }
 
-bool is_matrix_zero(matrix input_matrix)
-{
-    int size = input_matrix.M * input_matrix.N;
-    int i = 0; 
-    while ((i < size) && (input_matrix.arr[i] == 0))
-        i++;
-
-    return (i == size);
-}
-
-bool is_matrix_identity(const matrix * input_matrix)
-{
-    // is matrix square
-    if(is_matrix_square(input_matrix))
-        return 0;
-    
-    vtype element;
-    for(int i = 0 ; i < (*input_matrix).M; ++i)
-    {
-        for(int j = 0 ; j < (*input_matrix).N; ++j)
-        {
-            element = *matrix_at(input_matrix,i,j);
-            if (i == j && element != 1)
-                return false;
-            else if (i != j && element != 0)
-                return false;
-        }
-    }
-    return true;
-}
-
-inline bool is_matrix_square(const matrix * input_matrix)
-{
-    return ((*input_matrix).M == (*input_matrix).N);
-}
-
-inline bool is_matrix_rect(const matrix * input_matrix)
-{
-    return ((*input_matrix).M != (*input_matrix).N);
-}
-
-inline bool matrix_size_match(const matrix * A, const matrix * B)
-{
-    return ((*A).M == (*B).M) && ((*A).N == (*B).N);
-}
-
-inline int matrix_size(const matrix * input_matrix)
-{
-    return (*input_matrix).M*(*input_matrix).N;
-}
+//----------------------------------------------------------------------------------------------------
