@@ -14,19 +14,19 @@ inline bool matrix_size_match(const matrix * A, const matrix * B)
 
 //----------------------------------------------------------------------------------------------------
 
-inline vtype * matrix_at(matrix * input_matrix, int i, int j)
+inline mtype * matrix_at(matrix * input_matrix, int i, int j)
 {
     return &(*input_matrix).arr[i* (*input_matrix).N + j];
 }
 
-inline vtype matrix_value_at(const matrix * input_matrix, int i, int j)
+inline mtype matrix_value_at(const matrix * input_matrix, int i, int j)
 {
     return (*input_matrix).arr[i* (*input_matrix).N + j];
 }
 
-vtype ** matrix_column(matrix input_matrix, int column)
+mtype ** matrix_column(matrix input_matrix, int column)
 {
-    vtype ** return_arr = malloc(input_matrix.M * sizeof(vtype*));
+    mtype ** return_arr = malloc(input_matrix.M * sizeof(mtype*));
     for (int i = 0; i < input_matrix.M; ++i) // for row
     {
         return_arr[i] = &input_matrix.arr[i*input_matrix.N + column];
@@ -34,9 +34,9 @@ vtype ** matrix_column(matrix input_matrix, int column)
     return return_arr;
 }
 
-vtype ** matrix_row(matrix input_matrix, int row_number)
+mtype ** matrix_row(matrix input_matrix, int row_number)
 {
-    vtype ** return_arr = malloc(input_matrix.N * sizeof(vtype*));
+    mtype ** return_arr = malloc(input_matrix.N * sizeof(mtype*));
     for (int i = 0; i < input_matrix.N; ++i) //for column
     {
         return_arr[i] = &input_matrix.arr[i*input_matrix.M + row_number];
@@ -62,7 +62,7 @@ bool is_matrix_identity(const matrix * input_matrix)
     if(is_matrix_square(input_matrix))
         return 0;
     
-    vtype element;
+    mtype element;
     for(int i = 0 ; i < (*input_matrix).M; ++i)
     {
         for(int j = 0 ; j < (*input_matrix).N; ++j)
@@ -93,7 +93,7 @@ void matrix_transpose(matrix * input_matrix)
 {
     // i represents row number
     // j represents column number
-    vtype temp;
+    mtype temp;
     int M = (*input_matrix).M, N = (*input_matrix).N;
     for(int i = 0; i < M; ++i) //column iter
     {
@@ -106,13 +106,13 @@ void matrix_transpose(matrix * input_matrix)
     }
 }
 
-void matrix_fill(matrix * input_matrix, vtype val)
+void matrix_fill(matrix * input_matrix, mtype val)
 {
     for(int i; i < matrix_size(input_matrix); ++i)
         (*input_matrix).arr[i] = val;
 }
 
-void matrix_scalar_mult(matrix * input_matrix, vtype val)
+void matrix_scalar_mult(matrix * input_matrix, mtype val)
 {
     for(int i; i < matrix_size(input_matrix); ++i)
         (*input_matrix).arr[i] *= val;
@@ -120,7 +120,7 @@ void matrix_scalar_mult(matrix * input_matrix, vtype val)
 
 void matrix_normalize(matrix * input_matrix)
 {
-    vtype MAX;
+    mtype MAX;
     for (int i = 0; i < matrix_size(input_matrix); i++)
     {
         if (MAX < (*input_matrix).arr[i])
@@ -136,7 +136,7 @@ matrix matrix_create_empty(int M, int N)
     matrix return_matrix;
     return_matrix.M = M;
     return_matrix.N = N;
-    return_matrix.arr = malloc(M*N*sizeof(vtype));
+    return_matrix.arr = malloc(M*N*sizeof(mtype));
     return return_matrix;
 }
 
@@ -188,7 +188,7 @@ matrix matrix_multiplication(matrix * A, matrix * B, bool* failed)
     // create empty matrix
     return_matrix = matrix_create_empty((*A).M, (*B).N);
     
-    vtype partial_sum;
+    mtype partial_sum;
 
     for (int i = 0; i < (*A).M; i++)
     {
@@ -205,7 +205,7 @@ matrix matrix_multiplication(matrix * A, matrix * B, bool* failed)
     }
 }
 
-matrix matrix_aply_operation(matrix * A, matrix * B, vtype(*operation)(vtype, vtype), bool* failed)
+matrix matrix_aply_operation(matrix * A, matrix * B, mtype(*operation)(mtype, mtype), bool* failed)
 {
     matrix return_matrix;
 
